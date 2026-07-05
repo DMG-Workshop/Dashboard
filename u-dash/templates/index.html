@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ config.dashboard.title }}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">{{ config.dashboard.title }}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Settings</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+    <h1>{{ config.dashboard.description }}</h1>
+
+    <!-- Quick Launch Bar -->
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search..." aria-label="Search" aria-describedby="button-addon2" id="quick-launch-search">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+    </div>
+    <div class="row" id="quick-launch-bar">
+        {% for item in config.quick_launch %}
+        <div class="col-6 col-md-4 col-lg-3 mb-3">
+            <a href="{{ item.url }}" class="btn btn-light w-100 d-flex align-items-center justify-content-start">
+                <i class="{{ item.icon }} me-2"></i> {{ item.name }}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Links -->
+    <h2 class="mt-5">Links</h2>
+    <div class="row" id="links">
+        {% for link in config.links %}
+        <div class="col-6 col-md-4 col-lg-3 mb-3">
+            <a href="{{ link.url }}" class="btn btn-light w-100 d-flex align-items-center justify-content-start">
+                <i class="{{ link.icon }} me-2"></i> {{ link.name }}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Widgets -->
+    <h2 class="mt-5">Widgets</h2>
+    <div class="row" id="widgets">
+        <div class="col-md-6 mb-3">
+            <div class="card h-100">
+                <div class="card-header">{{ config.widgets[0].title }}</div>
+                <div class="card-body">
+                    <iframe src="https://www.weatherbit.io/widget/forecast/weather-map/YOUR_API_KEY?city={{ config.widgets[0].city }}" width="100%" height="400" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card h-100">
+                <div class="card-header">{{ config.widgets[1].title }}</div>
+                <div class="card-body">
+                    <!-- Calendar iframe or custom integration -->
+                    <iframe src="{{ config.widgets[1].calendar_url }}" width="100%" height="400" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS -->
+<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('U-Dash Dashboard loaded!');
+    
+    // Quick Launch Search
+    document.getElementById('quick-launch-search').addEventListener('input', function(event) {
+        const searchTerm = event.target.value.toLowerCase();
+        const items = document.querySelectorAll('#quick-launch-bar .col-6');
+        
+        items.forEach(item => {
+            const itemName = item.querySelector('.btn').textContent.toLowerCase();
+            if (itemName.includes(searchTerm)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

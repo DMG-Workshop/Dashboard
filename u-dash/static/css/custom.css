@@ -1,0 +1,12 @@
+/* Add your custom CSS here */
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.btn-light:hover {
+    background-color: #e6e6e6;
+}
