@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U-Dash Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="top-nav">
+        <div class="nav-brand">U-Dash</div>
+        <div id="tabs-container" style="display:flex; overflow-x:auto;"></div>
+        <div class="add-page-btn" id="btn-add-page" title="Add New Page">+</div>
+        <div class="settings-btn" id="btn-settings" title="Data Management">⚙️</div>
+    </div>
+
+    <div class="container">
+        <h1 id="clock">00:00</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search Google or enter IP..." autofocus autocomplete="off">
+        </div>
+
+        <div id="folders-wrapper" class="folders-wrapper"></div>
+
+        <div class="action-bar">
+            <div id="global-add-folder" class="dash-action-btn">+ Add Folder</div>
+            <div id="global-add-rss" class="dash-action-btn">+ Add RSS Widget</div>
+        </div>
+    </div>
+
+    <!-- Universal CRUD Modal -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-title" class="modal-title">Edit Item</h3>
+            <div class="form-group" id="modal-fields"></div>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" id="modal-cancel" style="width:auto;">Cancel</button>
+                <button class="btn btn-save" id="modal-save" style="width:auto;">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings / Import & Export Modal -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="modal-title">Data Management</h3>
+
+            <!-- Local Backup Section -->
+            <div class="form-group">
+                <p style="font-size: 0.9rem; color: #888; margin-top: 0; line-height:1.4;">Export or restore your dashboard layout locally.</p>
+                <button class="btn btn-save" id="btn-export-json">📥 Export Backup (JSON)</button>
+                <input type="file" id="import-json-file" accept=".json" style="display: none;">
+                <button class="btn btn-cancel" id="btn-import-json">📂 Import Backup (JSON)</button>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
+
+            <!-- Remote Sync Section -->
+            <div class="form-group">
+                <h4 style="color: var(--accent); margin: 0 0 10px 0;">Remote Server Sync</h4>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="checkbox" id="sync-toggle" style="width: auto;">
+                    <label for="sync-toggle" style="font-size: 0.9rem; color: var(--text-color);">Enable Master Server Sync</label>
+                </div>
+
+                <div id="sync-url-container" style="display: none; flex-direction: column; gap: 10px; margin-top: 10px;">
+                    <input type="url" id="sync-url" placeholder="http://192.168.x.x:8080" style="width: 100%; box-sizing: border-box;">
+                    <button class="btn btn-save" id="btn-force-sync" style="background: var(--text-color);">🔄 Force Pull from Server</button>
+                </div>
+
+                <p id="sync-status" style="font-size: 0.8rem; margin: 0; color: var(--accent); display: none;"></p>
+                <button class="btn btn-cancel" id="btn-save-sync" style="margin-top: 10px;">Save Sync Settings</button>
+            </div>
+
+            <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
+                <button class="btn btn-cancel" id="settings-close" style="width:100%;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

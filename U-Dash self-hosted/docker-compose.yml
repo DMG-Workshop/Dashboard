@@ -1,0 +1,12 @@
+services:
+  udash:
+    image: node:alpine
+    container_name: udash_server
+    restart: always
+    working_dir: /app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/app
+      - ./data:/app/data
+    command: node server.js
